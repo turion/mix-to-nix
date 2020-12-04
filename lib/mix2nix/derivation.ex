@@ -8,6 +8,10 @@ defmodule Mix2Nix.Derivation do
   deftemplate(:fetch_git, "fetch_git.nix.eex", [:name, :url, :rev])
   deftemplate(:fetch_hex, "fetch_hex.nix.eex", [:name, :hex_name, :version, :sha256])
 
+  def render_dependency({name, {:hex, hex_name, version, sha256, _tools, _children, "hexpm", _some_other_hash}}) do
+    render_dependency({name, {:hex, hex_name, version, sha256, _tools, _children, "hexpm"}})
+  end
+
   def render_dependency({name, {:hex, hex_name, version, sha256, _tools, _children, "hexpm"}}) do
     fetch_hex(name, hex_name, version, sha256)
   end
